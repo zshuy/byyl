@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--p命名空间  注册School
+        调用相应的getter和setter
+    -->
+    <bean id="mySchool" class="com.spring3di.di03.School" p:name="西安邮电大学" />
+
+    <!--注册Student-->
+    <bean id="myStudent" class="com.spring3di.di03.Student" p:name="王五" p:age="24" p:school-ref="mySchool" />
+
+</beans>

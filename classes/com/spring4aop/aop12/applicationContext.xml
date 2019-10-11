@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="someService" class="com.spring4aop.aop12.SomeServiceImpl"/>
+    <bean id="someService2" class="com.spring4aop.aop12.SomeServiceImpl"/>
+
+    <bean id="myAdvice" class="com.spring4aop.aop12.MyAfterReturningAdvice"/>
+
+    <!--名称匹配方法切入点顾问-->
+    <bean id="myNameMatchAdvisor" class="org.springframework.aop.support.NameMatchMethodPointcutAdvisor">
+        <property name="advice" ref="myAdvice"/>
+        <property name="mappedNames" value="*irs*"/>
+    </bean>
+
+    <bean id="myNameMatchAdvisor2" class="org.springframework.aop.support.NameMatchMethodPointcutAdvisor">
+        <property name="advice" ref="myAdvice"/>
+        <property name="mappedNames" value="doSecond"/>
+    </bean>
+
+    <!--&lt;!&ndash;正则表达式方法切入点顾问&ndash;&gt;-->
+    <!--<beans id="myRegexpAdvisor" class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">-->
+        <!--<property name="advice" ref="myAdvice"/>-->
+        <!--<property name="pattern" value=".*doFirst|.*Third"/>-->
+    <!--</beans>-->
+
+    <!--默认自动代理生成器-->
+    <!--实现了bean后处理器，增强了对象-->
+    <!--存在三个问题：-->
+    <!--1.不能选择目标对象-->
+    <!--2.不嫩选择切面类型，只能是advisor-->
+    <!--3.不能选择advisor，所有advisor都会被织入到目标方法内-->
+    <!--<beans class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"/>-->
+
+    <!--Bean名称自动代理生成器-->
+    <!--解决了默认自动代理生成器的三个问题-->
+    <bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+        <property name="beanNames" value="someService"/>
+        <property name="interceptorNames" value="myNameMatchAdvisor"/>
+    </bean>
+
+    <bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+        <property name="beanNames" value="someService2"/>
+        <property name="interceptorNames" value="myNameMatchAdvisor2"/>
+    </bean>
+</beans>

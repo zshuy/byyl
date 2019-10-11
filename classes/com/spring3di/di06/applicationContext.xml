@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--注册School-->
+    <bean id="mySchool" class="com.spring3di.di06.School">
+        <property name="name" value="西安邮电大学"/>
+    </bean>
+
+    <bean id="mySchool2" class="com.spring3di.di06.School">
+        <property name="name" value="西安交通大学"/>
+    </bean>
+
+    <bean id="mySome" class="com.spring3di.di06.Some">
+        <property name="schools">
+            <array>
+                <ref bean="mySchool"/>
+                <ref bean="mySchool2"/>
+            </array>
+        </property>
+
+        <!--简化版集合赋值-->
+        <property name="myStrs" value="中国，陕西"/>
+
+        <property name="myList" value="西安市,长安区"/>
+
+        <property name="mySet" value="郭杜街区,西安邮电大学东区"/>
+
+        <property name="myMap">
+            <map>
+                <entry key="academy" value="Master of Computing"/>
+                <entry key="major" value="software engineering"/>
+                <entry key="class" value="1702"/>
+            </map>
+        </property>
+
+        <property name="myPros">
+            <props>
+                <prop key="name">陈磊</prop>
+                <prop key="gender">男</prop>
+                <prop key="age">20</prop>
+            </props>
+        </property>
+    </bean>
+
+</beans>

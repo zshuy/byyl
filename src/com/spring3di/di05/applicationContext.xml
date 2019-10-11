@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+    <!--注册School-->
+    <bean id="mySchool" class="com.spring3di.di05.School">
+        <property name="name" value="西安邮电大学"/>
+    </bean>
+
+    <bean id="mySchool2" class="com.spring3di.di05.School">
+        <property name="name" value="西安交通大学"/>
+    </bean>
+
+    <!--为集合赋值-->
+    <bean id="mySome" class="com.spring3di.di05.Some">
+        <property name="schools">
+            <array>
+                <ref bean="mySchool"/>
+                <ref bean="mySchool2"/>
+            </array>
+        </property>
+
+        <property name="myStrs">
+            <array>
+                <value>中国</value>
+                <value>陕西</value>
+            </array>
+        </property>
+
+        <property name="myList">
+            <list>
+                <value>西安市</value>
+                <value>长安区</value>
+            </list>
+        </property>
+
+        <property name="mySet">
+            <set>
+                <value>郭杜街区</value>
+                <value>西安邮电大学东区</value>
+            </set>
+        </property>
+
+        <property name="myMap">
+            <map>
+                <entry key="academy" value="Master of Computing"/>
+                <entry key="major" value="software engineering"/>
+                <entry key="class" value="1702"/>
+            </map>
+        </property>
+
+        <property name="myPros">
+            <props>
+                <prop key="name">陈磊</prop>
+                <prop key="gender">男</prop>
+                <prop key="age">20</prop>
+            </props>
+        </property>
+    </bean>
+
+</beans>

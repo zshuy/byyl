@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--注册动态工厂-->
+    <!--<beans id="factory" class="com.spring2.bean02.ServiceFactory"/>-->
+
+    <!--注册bean-->
+    <!--<beans id="myService" factory-beans="factory" factory-method="getSomeService"/>-->
+
+    <bean id="myService" class="com.spring2.bean02.ServiceFactory" factory-method="getStaticSomeService"/>
+</beans>

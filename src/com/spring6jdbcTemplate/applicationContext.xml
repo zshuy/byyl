@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--注册Service-->
+    <bean id="myService" class="com.spring6jdbcTemplate.service.StudentServiceImpl">
+        <property name="dao" ref="myDao"/>
+    </bean>
+
+    <!--注册Dao-->
+    <!--<bean id="myDao" class="com.spring6jdbcTemplate.dao.StudentDaoImpl">-->
+        <!--<property name="jdbcTemplate" ref="myJdbcTemplate"/>-->
+    <!--</bean>-->
+    <!--<bean id="myJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">-->
+        <!--<property name="dataSource" ref="myDataSource"/>-->
+    <!--</bean>-->
+    <bean id="myDao" class="com.spring6jdbcTemplate.dao.StudentDaoImpl">
+    <property name="dataSource" ref="myDataSource"/>
+    </bean>
+
+    <!--3种数据源的注册-->
+    <!--1.spring内置-->
+    <!--<bean id="myDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
+        <!--<property name="driverClassName" value="com.mysql.jdbc.Driver"/>-->
+        <!--<property name="url" value="jdbc:mysql://127.0.0.1:3306/test"/>-->
+        <!--<property name="username" value="root"/>-->
+        <!--<property name="password" value="root"/>-->
+    <!--</bean>-->
+
+    <!--2.DBCP-->
+    <!--<bean id="myDataSource" class="org.apache.commons.dbcp.BasicDataSource">-->
+        <!--<property name="driverClassName" value="com.mysql.jdbc.Driver"/>-->
+        <!--<property name="url" value="jdbc:mysql://127.0.0.1:3306/test"/>-->
+        <!--<property name="username" value="root"/>-->
+        <!--<property name="password" value="root"/>-->
+    <!--</bean>-->
+
+    <!--3.C3P0-->
+    <!--<bean id="myDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">-->
+        <!--<property name="driverClass" value="com.mysql.jdbc.Driver"/>-->
+        <!--<property name="jdbcUrl" value="jdbc:mysql://127.0.0.1:3306/test"/>-->
+        <!--<property name="user" value="root" />-->
+        <!--<property name="password" value="root"/>-->
+    <!--</bean>-->
+
+    <!--3.C3P0-->
+    <bean id="myDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="${jdbc.driver}"/>
+        <property name="jdbcUrl" value="${jdbc.url}"/>
+        <property name="user" value="${jdbc.user}" />
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+
+    <!--注册属性文件：方式一-->
+    <!--<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">-->
+        <!--<property name="location" value="classpath:jdbc.properties"/>-->
+    <!--</bean>-->
+
+    <!--注册属性方式：方式二，context约束-->
+    <context:property-placeholder location="classpath:com/spring6jdbcTemplate/jdbc.properties"/>
+</beans>

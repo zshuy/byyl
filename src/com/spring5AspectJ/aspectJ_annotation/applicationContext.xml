@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop" xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd"> <!-- beans definitions here -->
+
+    <!--注册切面-->
+    <bean name="myAspect" class="com.spring5AspectJ.aspectJ_annotation.MyAspect"/>
+
+    <!--注册目标对象-->
+    <bean name="someService" class="com.spring5AspectJ.aspectJ_annotation.SomeServiceImpl"/>
+
+    <!--注册AspectJ的自动代理-->
+    <aop:aspectj-autoproxy/>
+</beans>

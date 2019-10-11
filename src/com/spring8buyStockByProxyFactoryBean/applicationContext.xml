@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+    <!--注册数据源:C3P0内置连接池-->
+    <bean id="myDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" >
+        <property name="driverClass" value="${jdbc.driver}"/>
+        <property name="jdbcUrl" value="${jdbc.url}"/>
+        <property name="user" value="${jdbc.user}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+
+    <!--======================= IOC =========================-->
+    <!--注册属性文件-->
+    <context:property-placeholder location="classpath:com/spring8buyStockByProxyFactoryBean/jdbc.properties"/>
+
+
+    <!--注册Dao-->
+    <bean id="accountDao" class="com.spring8buyStockByProxyFactoryBean.dao.AccountDaoImpl">
+        <property name="dataSource" ref="myDataSource"/>
+    </bean>
+
+    <!--注册Dao-->
+    <bean id="stockDao" class="com.spring8buyStockByProxyFactoryBean.dao.StockDaoImpl">
+        <property name="dataSource" ref="myDataSource"/>
+    </bean>
+
+    <!--注册Service-->
+    <bean id="buyStockService" class="com.spring8buyStockByProxyFactoryBean.service.BuyStockServiceImpl">
+        <property name="adao" ref="accountDao"/>
+        <property name="sdao" ref="stockDao"/>
+    </bean>
+
+
+    <!--======================= AOP =========================-->
+    <!--注册事务管理器-->
+    <bean id="myTransactionManger" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="myDataSource"/>
+    </bean>
+
+    <!--生成事务代理-->
+    <bean id="serviceProxy" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+        <property name="transactionManager" ref="myTransactionManger"/>
+        <property name="target" ref="buyStockService"/>
+        <property name="transactionAttributes">
+            <props>
+                <prop key="open*">ISOLATION_DEFAULT,PROPAGATION_REQUIRED</prop>
+                <!--
+                     -异常 发生制定异常后回滚,一般是受查异常
+                     +异常 发生制定异常后提交,一般是运行时异常
+                -->
+                <prop key="buyStock">ISOLATION_DEFAULT,PROPAGATION_REQUIRED,-BuyStockException</prop>
+            </props>
+        </property>
+    </bean>
+</beans>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--同类抽象Bean
+        abstract:true  抽象的
+        -->
+    <bean id="baseStudent" class="com.spring3di.di11.Student" abstract="true">
+        <property name="school" value="西安邮电大学"/>
+        <property name="department" value="计算机系"/>
+    </bean>
+
+    <!--parent：所要继承的父类-->
+    <bean id="myStudent1" parent="baseStudent">
+        <property name="name" value="张三"/>
+        <property name="age" value="19"/>
+    </bean>
+
+    <bean id="myStudent2" parent="baseStudent">
+        <property name="name" value="李四"/>
+        <property name="age" value="21"/>
+    </bean>
+
+    <bean id="myStudent3" parent="baseStudent">
+        <property name="name" value="王五"/>
+        <property name="age" value="20"/>
+    </bean>
+
+</beans>

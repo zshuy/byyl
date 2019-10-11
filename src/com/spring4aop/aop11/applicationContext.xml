@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="someService" class="com.spring4aop.aop11.SomeServiceImpl"/>
+
+    <bean id="myAdvice" class="com.spring4aop.aop11.MyAfterReturningAdvice"/>
+
+    <!--名称匹配方法切入点顾问-->
+    <bean id="myNameMatchAdvisor" class="org.springframework.aop.support.NameMatchMethodPointcutAdvisor">
+        <property name="advice" ref="myAdvice"/>
+        <!--名称匹配表达式比较的是简单方法名-->
+        <!--可以使用通配符：*-->
+        <!--<property name="mappedNames" value="doFirst,doSecond"/>-->
+        <property name="mappedNames" value="*ir*"/>
+    </bean>
+
+    <!--正则表达式方法切入点顾问-->
+    <bean id="myRegexpAdvisor" class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+        <property name="advice" ref="myAdvice"/>
+        <!--正则表达式比较的是方法的全限定名-->
+        <!--<property name="patterns" value=".*doFirst,.*Third"/>-->
+        <property name="pattern" value=".*doFirst|.*Third"/>
+    </bean>
+
+    <!-- 生成代理对象 -->
+    <bean id="serviceProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <!-- 指定目标对象
+           <property name="interfaces"/>可以不写   target中自动检测已实现接口
+        -->
+        <property name="target" ref="someService"/>
+        <!--<property name="targetName" value="someService"></property>-->
+
+        <!-- 指定切面 这里用的拦截器interceptor -->
+        <property name="interceptorNames" value="myRegexpAdvisor"/>
+    </bean>
+
+</beans>

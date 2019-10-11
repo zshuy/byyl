@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd"
+       xmlns:aop="http://www.springframework.org/schema/aop">
+
+    <bean id="someService" class="com.spring4aop.aop10.SomeServiceImpl"/>
+
+    <bean id="myAdvice" class="com.spring4aop.aop10.MyAfterReturningAdvice"/>
+
+    <!-- 生成代理对象 -->
+    <bean id="serviceProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <!-- 指定目标对象
+           <property name="interfaces"/>可以不写   target中自动检测已实现接口
+        -->
+        <property name="target" ref="someService"/>
+        <!--<property name="targetName" value="someService"></property>-->
+
+        <!-- 指定切面 这里用的拦截器interceptor -->
+        <property name="interceptorNames" value="myAdvice"/>
+
+        <!-- 是否使用代理类，true使用CGLIB，false使用proxy -->
+        <!--<property name="proxyTargetClass" value="true"/>-->
+
+        <!-- 优化，true使用CGLIB -->
+        <property name="optimize" value="true"/>
+    </bean>
+
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+</beans>
